@@ -1,3 +1,8 @@
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 """Profile DataLoader to find CPU-GPU balance point."""
 import time
 from config import Config

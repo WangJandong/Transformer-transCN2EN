@@ -1,3 +1,8 @@
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 """Test torch.compile backends — catch runtime crashes, not just compile errors."""
 import time, torch, torch.nn.functional as F
 from config import Config; from tokenizer import load_spm

@@ -1,3 +1,8 @@
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 """Benchmark: compare training throughput with/without Turing optimizations."""
 import time
 import torch

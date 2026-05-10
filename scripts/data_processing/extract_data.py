@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Rebuild clean train/val/test from the original CSV using proper csv.reader parsing.
 
 Optimised single-pass:
@@ -10,7 +11,6 @@ Usage:
     python extract_data.py --train_lines 0     # all rows (full 18.7M)
     python extract_data.py --no_filter         # raw extraction
 """
-from __future__ import annotations
 import argparse
 import csv
 import re

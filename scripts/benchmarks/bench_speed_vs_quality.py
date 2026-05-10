@@ -6,6 +6,11 @@ and prints tok/s + final loss so you can pick the best tradeoff.
 Usage:
     python bench_speed_vs_quality.py
 """
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 import torch
 import torch.nn.functional as F
 from config import Config

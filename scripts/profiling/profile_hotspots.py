@@ -1,3 +1,8 @@
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 """Fine-grained profiling of a real training step — identify every hotspot."""
 import torch
 import torch.nn.functional as F

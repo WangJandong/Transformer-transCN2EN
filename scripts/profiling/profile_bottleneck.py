@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Comprehensive performance bottleneck analysis for NMT training on Turing.
 
 Covers:
@@ -6,7 +7,11 @@ Covers:
   3. Arithmetic-intensity breakdown per operation
   4. Memory-bandwidth utilisation analysis
 """
-from __future__ import annotations
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 import math
 import time
 from contextlib import nullcontext

@@ -1,9 +1,14 @@
+from __future__ import annotations
 """Pre-tokenize corpus → memory-mapped numpy arrays (streaming, low-RAM).
 
 Token ids are written to a temp file every 500K lines using array('i').
 Offsets + lengths accumulated in Python lists, saved as .npy at the end.
 """
-from __future__ import annotations
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 import argparse
 import os
 import tempfile

@@ -1,3 +1,8 @@
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 """Measure impact of non_blocking transfers + persistent workers."""
 import time
 import torch

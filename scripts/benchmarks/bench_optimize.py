@@ -1,4 +1,8 @@
 """Compare throughput across configurations and estimate total training time."""
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 import time
 import torch
 import torch.nn as nn
@@ -29,6 +33,8 @@ def make_model():
 
 def bench_config(label, B, compile_mode="default", use_amp=True):
     """Measure step time with random data at given batch size."""
+
+
     # Use representative sequence length ~50 (close to real data avg=36 + padding)
     S = 50
     src = torch.randint(4, V, (B, S), device=device)

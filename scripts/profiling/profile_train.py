@@ -3,9 +3,13 @@ Profile training: identify compute vs bandwidth bottlenecks.
 Usage: python profile_train.py
 Output: ./profiler_logs/ (for tensorboard), terminal summary
 """
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 import time
 import sys
-sys.path.insert(0, "/home/wjd/project/train")
 
 import torch
 import torch.nn as nn

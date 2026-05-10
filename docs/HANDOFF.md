@@ -40,23 +40,43 @@ train/
 ├── train.py               ← 训练主入口，自动写日志到 logs/
 ├── trainer.py             ← 训练循环、Noam 调度器、混合精度、checkpoint
 ├── model.py               ← Transformer Encoder-Decoder（PyTorch nn.Transformer）
+├── dataset.py             ← 实时分词 DataLoader（ IterableDataset ）
 ├── dataset_tokenized.py   ← 从预 tokenize 的 .npy mmap 文件加载数据
 ├── tokenizer.py           ← SentencePiece BPE 分词器训练/加载
 ├── translate.py           ← 推理/翻译脚本
-├── extract_data.py        ← 从原始 CSV 提取+过滤+分片（用 csv.reader，不要 naive split）
-├── pre_tokenize.py        ← 将文本数据预 tokenize 为 .npy（流式写入，低内存）
+├── eval.py                ← 完整评估（BLEU/chrF/BERTScore/COMET）
+├── eval_quick.py          ← 快速评估（离线，BLEU/chrF  only）
+├── plot_train.py          ← 训练曲线绘图
 ├── run.sh                 ← 一键启动
-
-├── bench_speed_vs_quality.py   ← d_model/L 扫参对比脚本
-├── bench_compile_backends.py   ← torch.compile backend 测试
-├── bench_optimize.py           ← batch size sweep
-├── bench_dataloader.py         ← DataLoader 瓶颈分析
-├── bench_tokenized.py          ← 实时 vs 预 tokenize 对比
-├── profile_hotspots.py         ← PyTorch Profiler 热点分析
-├── analyze_model.py            ← 模型参数结构分析
-├── check_csv.py                ← 原始 CSV 格式验证
-├── data_quality.py             ← 数据质量分析
-
+│
+├── scripts/
+│   ├── data_processing/   ← 数据预处理
+│   │   ├── extract_data.py
+│   │   ├── pre_tokenize.py
+│   │   ├── clean_data.py
+│   │   ├── data_quality.py
+│   │   └── check_csv.py
+│   ├── benchmarks/        ← 性能基准测试
+│   │   ├── bench.py
+│   │   ├── bench_speed_vs_quality.py
+│   │   ├── bench_compile_backends.py
+│   │   ├── bench_optimize.py
+│   │   ├── bench_dataloader.py
+│   │   ├── bench_tokenized.py
+│   │   └── bench_non_blocking.py
+│   ├── profiling/         ← 性能分析
+│   │   ├── profile_hotspots.py
+│   │   ├── profile_bottleneck.py
+│   │   ├── profile_train.py
+│   │   └── analyze_model.py
+│   └── check_env.py       ← 环境检查
+│
+├── docs/                  ← 文档与报告
+│   ├── HANDOFF.md
+│   ├── EVALUATION_GUIDE.md
+│   ├── TRAINING_REPORT.md
+│   └── PERFORMANCE_REPORT.md
+│
 ├── data/                  ← 清洗后的平行语料（文本，18.8M 行）
 │   ├── train.zh / train.en
 │   ├── val.zh   / val.en
@@ -64,6 +84,8 @@ train/
 ├── data_tokenized/        ← 预 tokenize 的 mmap .npy 数组
 ├── checkpoints/           ← 训练 checkpoint（自动创建）
 ├── logs/                  ← 训练日志（自动创建，tee 到终端+文件）
+├── course/                ← 教程文档（15 章）
+├── rl/                    ← 强化学习实验代码
 ├── spm_bpe.model          ← 已训练的 BPE 分词器（32K vocab）
 └── spm_bpe.vocab          ← 词表文件
 ```
@@ -132,12 +154,13 @@ ep 1/20 |   2.4% | step   3500 | loss 4.3904 | lr 3.06e-04 | 97,690 tok/s | ETA 
 
 重新提取全量数据：
 ```bash
-python extract_data.py --train_lines 0     # 全部 2475 万行 → 过滤后 ~1884 万训练句对
+python scripts/data_processing/extract_data.py --train_lines 0
+# 全部 2475 万行 → 过滤后 ~1884 万训练句对
 ```
 
 重新预 tokenize（如果改了 max_seq_len 或重提数据后必须做）：
 ```bash
-python pre_tokenize.py                     # 流式写入，内存安全
+python scripts/data_processing/pre_tokenize.py   # 流式写入，内存安全
 ```
 
 ---

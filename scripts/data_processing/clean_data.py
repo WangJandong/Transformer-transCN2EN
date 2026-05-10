@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Clean parallel corpus: dedup, filter, normalize.
 
 Produces data/clean/train.{zh,en} from the raw files.
@@ -15,7 +16,11 @@ Usage:
     python clean_data.py --full          # clean the whole 19M dataset (slow!)
     python clean_data.py --sample 2M     # clean first 2M lines only
 """
-from __future__ import annotations
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
 import argparse
 import re
 import sys
