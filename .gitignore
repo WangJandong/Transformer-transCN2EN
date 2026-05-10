@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Data & checkpoints (large files)
+data/
+data_cached/
+data_tokenized/
+checkpoints/
+
+# Logs
+logs/
+
+# External data (embedded repo)
+WMT-Chinese-to-English-Machine-Translation-Training-Corpus-new/
+
+# Generated images
+training_report.png
+
+# IDE / Editor
+.claude/
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+test.txt
+
+# Loop notes
+loop.md
